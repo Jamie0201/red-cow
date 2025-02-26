@@ -1,17 +1,19 @@
-/* Add padding to containers */
 .container {
-  padding: 16px;
+  padding: 0; /* Remove padding from container */
+  margin: 0; /* Remove margin from container */
 }
 
-/* Full-width input fields */
-
-input {
-	width:50%;
+p {
+  margin: 0; /* Remove margin from all p tags */
 }
-
 
 body {
-	background-color:#A586E3;
+  background-color: #333333; /* Dark charcoal grey */
+  text-align: center;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  color:aliceblue;
+}
 
 .logo {
 	height:400px;
@@ -22,40 +24,61 @@ body {
 }
 
 .form {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
+  background: #333333;
+  padding: 16px;
+  border-radius: 5px;
 }
 
+.button-container {
+  text-align: center;
+}
 
+.homebuttons {
+  background-color: royalblue;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px;
+  border-radius: 5px;
+  width:60px;
+  height:40px;
+  padding-right:40px;
+  padding-left:40px;
+  margin-right:40px;
+  margin-left:40px;
+}
 
+.homebuttons:hover {
+  background-color: darkblue;
+}
 
-/* Set a style for the submit/register button */
 .registerbtn {
   background-color: royalblue;
   color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px;
+  border-radius: 5px;
   border: none;
   cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
+  font-size: 16px;
 }
 
 .registerbtn:hover {
-  opacity:1;
-}-
-
-.homebuttons { 	
-	background-color:#4169e1; /* blue */
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
+  background-color: darkblue;
 }
 
+input[type="text"],
+input[type="password"] {
+    margin-top: 5px; /* Add space above the input */
+    margin-bottom: 15px; /* Add space below the input */
+    padding: 8px; /* Add padding inside the input */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+label {
+    display: block; /* Make the label a block element */
+    margin-top: 10px; /* Add space above the label */
+}
