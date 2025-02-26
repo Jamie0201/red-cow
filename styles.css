@@ -39,8 +39,7 @@ body {
   padding: 10px 20px;
   text-decoration: none;
   display: inline-block;
-  margin: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   width:60px;
   height:40px;
   padding-right:40px;
@@ -82,3 +81,4 @@ label {
     display: block; /* Make the label a block element */
     margin-top: 10px; /* Add space above the label */
 }
+
