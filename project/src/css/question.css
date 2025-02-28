@@ -1,0 +1,27 @@
+.logo{ 
+    width:250px;
+    height: 250px;
+    display: block;
+    margin-top: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  body {
+    background: linear-gradient(to right, #1b173b, #081953);
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-background {
+    background-image: url('../photos/peakpx.jpg');
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-position: center; /* Center the background image */
+    height: 100vh; /* Set the height of the header */
+    width: 100%; /* Set the width of the header */
+}
