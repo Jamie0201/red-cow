@@ -1,13 +1,10 @@
 <?php 
 
-$dsn = 'sqlite:' . __DIR__ . '/../database.sqlite';
-
-/*
 $host = "localhost";
 $user = "root";
 $password = "";
 $database = "users_db";
-*/
+
 $conn = new mysqli($host, $user, $password, $database);
 
 if(!$conn->connect_error){

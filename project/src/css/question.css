@@ -25,3 +25,17 @@
     height: 100vh; /* Set the height of the header */
     width: 100%; /* Set the width of the header */
 }
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #7494ec;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size:16px;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: 0.5s;
+}
