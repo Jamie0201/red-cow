@@ -17,8 +17,9 @@ if (isset($_POST['register'])) {
     }
 
     if ($checkEmail->num_rows > 0) {
+        // Set register error
         $_SESSION['register error'] = 'Email is already registered';
-        $_SESSION['active form'] = 'register';
+        $_SESSION['active_form'] = 'register';
     } else {    
         $insertUser = $conn->query("INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')");
         if ($insertUser === false) {
@@ -42,21 +43,25 @@ if (isset($_POST['login'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
-            $_SESSION['name'] = $user['name'];
-            $_SESSION['email'] = $user['email'];
-            
-           // Debugging output
-           echo "<script>console.log('Redirecting to quiz.php');</script>";
-            
-           // Redirect to quiz.php
-           header("Location: quiz.php");
-           exit(); 
-         }
+            // Set the user ID in the session
+            $_SESSION['user_id'] = $user['id'];
+           
+            // Redirect to quiz.php
+            header("Location: quiz.php");
+            exit(); 
+        } else {
+            // Set login error for incorrect password
+            $_SESSION['login error'] = "Invalid email or password.";
+            $_SESSION['active_form'] = 'login';
+            header("Location: index.php");
+            exit();    
         }
+    } else {
+        // Set login error for email not found
+        $_SESSION['login error'] = "No user found with that email.";
+        $_SESSION['active_form'] = 'login';
+        header("Location: index.php");
+        exit();
     }
-   
-    $_SESSION['login error'] = 'Email or password is incorrect';
-    $_SESSION['active form'] = 'login';
-    header('location: ../index.php');
-    exit();
-
+}
+?>

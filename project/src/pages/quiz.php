@@ -35,6 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // If quiz is completed, save results to database
 if ($_SESSION['question_index'] >= $total_questions) {
     $score = $_SESSION['score'];
+
+    // Debugging: Check session variables
+    if (!isset($_SESSION['user_id'])) {
+        die("Error: User ID is not set in the session.");
+    }
     
     // Update the user's score in the database
     $stmt = $conn->prepare("UPDATE users SET score = score + ? WHERE id = ?");

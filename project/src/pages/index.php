@@ -1,24 +1,23 @@
 <?php 
-
 session_start();
 
 $errors = [ 
-    'login' => $SESSION['login error'] ?? '',
-    'register' => $SESSION['register error'] ?? ''
+    'login' => $_SESSION['login error'] ?? '',
+    'register' => $_SESSION['register error'] ?? ''
 ];
 
-$activeForm = $SESSION['active_form'] ?? 'login';
+$activeForm = $_SESSION['active_form'] ?? 'login';
 
+// Clear session variables after using them
 session_unset();
 
-    function showError($error) {
-        return !empty($error) ? "<p class='error-message'>$error</p>" : '';
-    }
+function showError($error) {
+    return !empty($error) ? "<p class='error-message'>$error</p>" : '';
+}
 
-    function isActiveForm($foreName, $activeForm) {
-        return $foreName === $activeForm ? 'active' : '';
-    }
-
+function isActiveForm($formName, $activeForm) {
+    return $formName === $activeForm ? 'active' : '';
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,22 +30,21 @@ session_unset();
 </head>
 <body>
     <div class="container">
-        <div class="form-box <?= isActiveForm('login', $activeForm);?>" id="login-form">
-        
+        <div class="form-box <?= isActiveForm('login', $activeForm); ?>" id="login-form">
             <form action="login_register.php" method="post">
                 <h2>Login</h2>
-                <? showError($errors['login']); ?>
+                <?php echo showError($errors['login']); ?>
                 <input type="email" name="email" placeholder="email" required>
                 <input type="password" name="password" placeholder="password" required>
                 <button type="submit" name="login">Login</button>
                 <p>Don't have an account? <a href="#" onclick="showForm('register-form')">Register</a></p>
-             </form>
+            </form>
         </div>
 
         <div class="form-box <?= isActiveForm('register', $activeForm); ?>" id="register-form">
             <form action="login_register.php" method="post">  
                 <h2>Register</h2>
-                <? showError($errors['register']); ?>
+                <?php echo showError($errors['register']); ?>
                 <input type="text" name="name" placeholder="name" required>
                 <input type="email" name="email" placeholder="email" required>       
                 <input type="password" name="password" placeholder="password" required>
@@ -62,6 +60,5 @@ session_unset();
     </div>
 
     <script src="../JS/script.js"></script>
-
 </body>
 </html>

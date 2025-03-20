@@ -8,11 +8,11 @@
 }
 
 body {
-  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  background: radial-gradient(circle, rgb(75, 81, 165), rgb(9, 3, 92));
   display: flex;
   align-items: center;
   min-height: 100vh;
-  color: #333;
+  color: #303030;
   justify-content: center;
 }
 
@@ -23,14 +23,13 @@ body {
 
 
 .form-box {
-  width: 100%;
-  max-width: 450px;
-  padding: 30px;
-  background: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 40px;
+  border-radius: 6px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius:10px;
   display: none;
-
+  width: 100%;
+  max-width: 500px;
 }
 
 .form-box.active {
@@ -39,7 +38,7 @@ body {
 
 h2 {
   font-size: 34px;
-  color: #333;
+  color: #303030;
   margin-bottom: 20px;
 
 }
@@ -83,7 +82,7 @@ p {
 }
 
 p a {
-  color: #7494ec;
+  color: #09277c;
   text-decoration: none;
 }
 
@@ -93,10 +92,10 @@ p a:hover {
 
 .error-message{
   padding:12px;
-  background: #f8d7da;
+  background: #ce4651b9;
   border-radius: 6px;
   font-size: 16px;
-  color: #a42834;
+  color: #000000;
   text-align : center;
   margin-bottom: 20px;
 }
