@@ -45,9 +45,7 @@ form {
 }
 
 input[type="radio"] {
-  opacity: 0;
-  position: absolute;
-  pointer-events: none; /* Prevent interference with clicks */
+  display: none; /* Hide the radio buttons */
 }
 
 /* Add a class for the checked state */
@@ -74,54 +72,4 @@ button {
 }
 button:hover {
   background-color: #0b004d;
-}
-
-a.button {
-  display: inline-block;
-  background-color: #000322;
-  color: #ffffff;
-  padding: 15px 30px;
-  margin-top: 20px;
-  border-radius: 10px;
-  font-size: 1.2em;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-a.button:hover {
-  background-color: #0b004d;
-}
-
-/* Leaderboard Table Styling */
-table.leaderboard {
-  width: 80%;
-  margin: 20px auto;
-  border-collapse: collapse;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: aliceblue;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-table.leaderboard th, table.leaderboard td {
-  padding: 15px;
-  text-align: center;
-  border: 1px solid #ffffff;
-}
-
-table.leaderboard th {
-  background-color: #000322;
-  font-size: 1.2em;
-}
-
-table.leaderboard tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-table.leaderboard tr:hover {
-  background-color: #0b004d;
-}
-
-table.leaderboard td {
-  font-size: 1em;
 }

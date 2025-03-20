@@ -1,83 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions</title>
-    <link rel="stylesheet" href="../css/question.css">
-</head>
-<body>
-
 <?php
-        $answers = [
-            "question1" => "a",
-            "question2" => "c",
-            "question3" => "c",
-            "question4" => "b",
-            "question5" => "a",
-            
-        ];
+session_start();
+include 'config.php'; // Database connection
+if(!isset($_SESSION['name'])) {
+    header("location: login_register.php");
+    exit();
+}   
 
-        $score = 0;
+// If the user is starting a new quiz, reset session data
+if (!isset($_SESSION['question_index'])) {
+    $_SESSION['question_index'] = 0;
+    $_SESSION['score'] = 0;
+}
 
-        foreach ($answers as $question => $correctAnswer) {
-            if (isset($_POST[$question]) && $_POST[$question] === $correctAnswer) {
-                $score++;
-            }
-        }
+// Fetch all questions
+$query = "SELECT * FROM questions";
+$result = mysqli_query($conn, $query);
+$questions = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$total_questions = count($questions);
 
-        echo "<p>Your score: $score / 10</p>";
-
-        foreach ($answers as $question => $correctAnswer) {
-            echo "<p>Question: " . substr($question, 1) . " - Correct Answer: $correctAnswer</p>";
-        }
-    ?>
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['answer'])) {
+        $current_question = $questions[$_SESSION['question_index']];
         
+        // Check if the answer is correct
+        if ($_POST['answer'] == $current_question['correct_option']) {
+            $_SESSION['score']++;
+        }
+        
+        $_SESSION['question_index']++;
+    }
+}
 
-
-
-
-    <header class="header-background">
-        <form action="quiz.php" method="post">
-
-        <p>what is the capital of Mexico?</p>
-        <input type="radio" name="question1" value="a">a) Mexico City<br>
-        <input type="radio" name="question1" value="b">b) New York<br>
-        <input type="radio" name="question1" value="c">c) Cancun<br>
-        <input type="radio" name="question1" value="d">d) Miami<br>
-
-        <p>what is the capital of France?</p>
-        <input type="radio" name="question2" value="a">a) Berlin<br>
-        <input type="radio" name="question2" value="b">b) London<br>
-        <input type="radio" name="question2" value="c">c) Paris<br>
-        <input type="radio" name="question2" value="d">d) Madrid<br>
-
-        <p>what is the largest organ in your body?</p>
-        <input type="radio" name="question3" value="a">a) Heart<br>
-        <input type="radio" name="question3" value="b">b) Liver<br>
-        <input type="radio" name="question3" value="c">c) Skin<br>
-        <input type="radio" name="question3" value="d">d) Kidney<br>
-
-        <p>who won the 2018 world cup?</p>
-        <input type="radio" name="question4" value="a">a) Brazil<br>
-        <input type="radio" name="question4" value="b">b) France<br>
-        <input type="radio" name="question4" value="c">c) Germany<br>
-        <input type="radio" name="question4" value="d">d) Argentina<br>
-
-        <p>how many bones are in the human body?</p>
-        <input type="radio" name="question5" value="a">a) 206<br>
-        <input type="radio" name="question5" value="b">b) 309<br>
-        <input type="radio" name="question5" value="c">c) 167<br>
-        <input type="radio" name="question5" value="d">d) 237<br>
-
-            <button type="submit" name="submit">Submit</button>
-           
-        </form>
-
+// If quiz is completed, save results to database
+if ($_SESSION['question_index'] >= $total_questions) {
+    $score = $_SESSION['score'];
     
-    </header>
-    <main>
+    // Update the user's score in the database
+    $stmt = $conn->prepare("UPDATE users SET score = score + ? WHERE id = ?");
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($conn->error));
+    }
     
-    </main>
+    $bind = $stmt->bind_param("ii", $score, $_SESSION['user_id']);
+    if ($bind === false) {
+        die('Bind failed: ' . htmlspecialchars($stmt->error));
+    }
+    
+    $exec = $stmt->execute();
+    if ($exec === false) {
+        die('Execute failed: ' . htmlspecialchars($stmt->error));
+    }
+    
+    $stmt->close();
+    
+    session_destroy(); // Reset quiz session
+      // Redirect to results page
+      header("Location: results.php?score=$score&total=$total_questions");
+      exit();
+}
+
+// Display the current question
+$current_question = $questions[$_SESSION['question_index']];
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/question.css">
+    <title>Quiz</title>
+</head>
+
+<body>
+    <img src="../photos/logo.png" class="logo">
+<h2>Question: <?php echo $current_question['question']; ?> <?php echo $_SESSION['question_index'] + 1; ?> / <?php echo $total_questions; ?></h2>
+    <form method="POST">
+        <div class="radio-group">
+            <div>
+                <input type="radio" id="answerA" name="answer" value="a" required>
+                <label for="answerA"><?php echo $current_question['option_a']; ?></label>
+            </div>
+            <div>
+                <input type="radio" id="answerB" name="answer" value="b" required>
+                <label for="answerB"><?php echo $current_question['option_b']; ?></label>
+            </div>
+        </div>
+        <div class="radio-group">
+            <div>
+                <input type="radio" id="answerC" name="answer" value="c" required>
+                <label for="answerC"><?php echo $current_question['option_c']; ?></label>
+            </div>
+            <div>
+                <input type="radio" id="answerD" name="answer" value="d" required>
+                <label for="answerD"><?php echo $current_question['option_d']; ?></label>
+            </div>
+        </div>
+        <button type="submit">Next</button>
+    </form>
+
+    <script src="../JS/script.js"></script>
+
+
 </body>
 </html>
